@@ -51,6 +51,14 @@ class MWSClient{
 
     public function __construct(array $config = [])
     {
+        $config = [
+            'Seller_Id' =>  Config::get('api.mws_seller_id'),
+            'Marketplace_Id' => Config::get('api.mws_marketplace_id'),
+            'Access_Key_ID' => Config::get('api.mws_seller_access_key'),
+            'Secret_Access_Key' => Config::get('api.mws_secret_key'),
+            'MWSAuthToken' => '',
+            'Application_Version' => '0.0.*'
+        ];
         $this->config['Seller_Id'] = Config::get('api.mws_seller_id');
         $this->config['Marketplace_Id'] = Config::get('api.mws_marketplace_id');
         $this->config['Access_Key_ID'] = Config::get('api.mws_seller_access_key');
