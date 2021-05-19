@@ -11,6 +11,7 @@ use SplTempFileObject;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Spatie\ArrayToXml\ArrayToXml;
+use Illuminate\Support\Facades\Config;
 
 class MWSClient{
 
@@ -19,14 +20,15 @@ class MWSClient{
     const DATE_FORMAT = "Y-m-d\TH:i:s.\\0\\0\\0\\Z";
     const APPLICATION_NAME = 'MCS/MwsClient';
 
-    private $config = [
-        'Seller_Id' => null,
-        'Marketplace_Id' => null,
-        'Access_Key_ID' => null,
-        'Secret_Access_Key' => null,
-        'MWSAuthToken' => null,
-        'Application_Version' => '0.0.*'
-    ];
+    private
+        $config = [
+            'Seller_Id' =>  '',
+            'Marketplace_Id' => '',
+            'Access_Key_ID' => '',
+            'Secret_Access_Key' => '',
+            'MWSAuthToken' => '',
+            'Application_Version' => '0.0.*'
+        ];
 
     private $MarketplaceIds = [
         'A2EUQ1WTGCTBG2' => 'mws.amazonservices.ca',
@@ -47,9 +49,12 @@ class MWSClient{
     protected $debugNextFeed = false;
     protected $client = NULL;
 
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
-
+        $this->config['Seller_Id'] = Config::get('api.mws_seller_id');
+        $this->config['Marketplace_Id'] = Config::get('api.mws_marketplace_id');
+        $this->config['Access_Key_ID'] = Config::get('api.mws_seller_access_key');
+        $this->config['Secret_Access_Key'] = Config::get('api.mws_secret_key');
         foreach($config as $key => $value) {
             if (array_key_exists($key, $this->config)) {
                 $this->config[$key] = $value;
