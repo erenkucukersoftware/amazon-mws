@@ -11,6 +11,7 @@ use SplTempFileObject;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Spatie\ArrayToXml\ArrayToXml;
+use Illuminate\Support\Facades\Config;
 
 class MWSClient{
 
